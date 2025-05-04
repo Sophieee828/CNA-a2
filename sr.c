@@ -179,12 +179,12 @@ void B_input(struct pkt packet)
         return;
     }
 
-    packets_received++;
-
     seq = packet.seqnum;
 
     if (TRACE > 0)
         printf("----B: packet %d is correctly received, send ACK!\n", seq);
+
+    packets_received++;
 
     ackp.seqnum = 0;
     ackp.acknum = seq;
