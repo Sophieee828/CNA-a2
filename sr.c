@@ -179,6 +179,8 @@ void B_input(struct pkt packet)
         return;
     }
 
+    packets_received++;
+
     seq = packet.seqnum;
 
     if (TRACE > 0)
@@ -198,7 +200,6 @@ void B_input(struct pkt packet)
 
     while (rb_received[expectedseq]) {
         tolayer5(B, rb_buffer[expectedseq].payload);
-        packets_received++;
         rb_received[expectedseq] = false;
         expectedseq++;
     }
