@@ -1,0 +1,197 @@
+commit d44e265f4208efb8f9465bf85e457d62b6ffaf0a
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 04:24:46 2025 +0930
+
+    Create old_base to check whether the ACK is base
+
+commit 52d271ff6e8343c0a3616772cfbb0cd14cfacaa0
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 04:15:59 2025 +0930
+
+    Remove useless printf in binput
+
+commit ae0b6e1ea34b8516365cee2b81fe7c32d99ed125
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 04:06:53 2025 +0930
+
+    Solve infinite loop issue
+
+commit fc05c9d106e0b0ab1221e5da90fa96d738a5be09
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 03:55:10 2025 +0930
+
+    Modify binput to calculate all packets
+
+commit b84a338aa15dfd142f5fa556992a10f3614b0725
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 03:37:30 2025 +0930
+
+    Change Atimerinterrupt2.0
+
+commit eddcddf92845c003620b2cec1ee85a20ee1e46d5
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 03:30:16 2025 +0930
+
+    Change Atimerinterrupt
+
+commit eb677e4e66ed206f52a12f446831fd6e3c61f46f
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 02:25:37 2025 +0930
+
+    Fix timer and ACK processing
+
+commit ea56f500bcf3adddb3bd6c799ce6c03709d2deb4
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 01:53:31 2025 +0930
+
+    Check binput in-order delivery
+
+commit 2110d865fa98d5072144f71e715e55139ed0976a
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 01:20:35 2025 +0930
+
+    Search foe errors
+
+commit 36e88732134ef8599e804337ff5da5cb38810163
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 01:12:37 2025 +0930
+
+    Rewrite B_input() to correctly handle out-of-order caching, Add sr_timer[] logic, Check ACK is acknum = seqnum
+
+commit 614dab66262505759c3095b2080f025554c97ac4
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 00:56:47 2025 +0930
+
+    Update output test file
+
+commit 235c6d5c066df5b896bb9c18d0478981425481e8
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 00:54:26 2025 +0930
+
+    Add missing printf message
+
+commit 6a1472da12d78d7083c056448507e78fb9e33aec
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 00:30:25 2025 +0930
+
+     Add packets_received++ in B_input
+
+commit 40a3e965bd712d9075f5d9626829185f4fa7c363
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 00:22:09 2025 +0930
+
+    Add total_ACKs_received++ to record ACKs
+
+commit e46eb82513449b693212ab6bd5dae073c95bda9d
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Mon May 5 00:16:31 2025 +0930
+
+    Add Trace>1 printf
+
+commit 60f2ea9cbe2fd3fae90c3b3bccea95431a189cff
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Sun May 4 23:21:40 2025 +0930
+
+    Add new lines to all files due to warnings
+
+commit dd538b06e3bb72ee5a97ef4bb748e3a128cce741
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Sun May 4 23:20:45 2025 +0930
+
+    Rename all sr.expiry to sr.timer
+
+commit 277682c95d7eea6d3ea993a7e3633a48b82e9e5a
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Sun May 4 23:18:11 2025 +0930
+
+    Add newline at end of file
+
+commit 7eaad2a876c0850559477343baee46add9ec6076
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Sun May 4 23:15:01 2025 +0930
+
+    Fix undeclared sr_expiry: rename to sr_timer
+
+commit f2d731d78c9954c34170cb500fd4aac644f0ddc2
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Sun May 4 23:09:40 2025 +0930
+
+    Coorect all // comment to /* comment */ and for-loop issue
+
+commit a4af987eb90879d9ab46aa2653d100ac5d004415
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Sun May 4 22:50:45 2025 +0930
+
+    Include the header string.h
+
+commit 44db2bbe1c63e5135238da93c50b760bcb361320
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 22:22:18 2025 +0930
+
+    Remove obsolete GBN sender variables in sr.c
+
+commit 96787e3b50ba4505c1285aaf2f6371d185500876
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 22:19:00 2025 +0930
+
+    Correct typo sc.h to sr.h
+
+commit 8a3e5c52695bdd4b8d599e1a20422fd043055348
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 22:15:10 2025 +0930
+
+    Include sr.h instead of gbn.h in sr.c
+
+commit 653cd1a69e2227a6794ae9848eae40186a3e91e2
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 21:26:19 2025 +0930
+
+    Implement B_init and B_input: buffer out-of-order, deliver in-order, send ACK
+
+commit 8397a70d24b6c1ab8dc436d3f1865d7c0cfb6075
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 21:22:07 2025 +0930
+
+    Implement A_timerinterrupt: retransmit unacked packets, restart timer
+
+commit da28a7e252ea9474cad438f982e29154b78371eb
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 21:20:42 2025 +0930
+
+    Modify A_input: mark ACKed, slide base, restart or stop timer
+
+commit eb382816afc216795f956995601a4b2728580caa
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 21:18:52 2025 +0930
+
+    Modify A_output: buffer packet, send, start timer for base, record expiry
+
+commit c86aedf8d39423aa87402283758eb304e6075d25
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 21:16:38 2025 +0930
+
+    Initialize SR in A_init: reset base, nextseqnum, ack flags and expiries
+
+commit 4ebf885f957a92b0a16ce7819f96eef305e8124c
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 21:14:06 2025 +0930
+
+    Define SR state: sr_buffer, sr_acked, sr_expiry, base, nextseqnum
+
+commit f7b6eb2e378c586882b18eec01c51c4433ead5db
+Author: a1911139 <yufei.sun@student.adelaide.edu.au>
+Date:   Sun May 4 20:49:50 2025 +0930
+
+    Initialize Selective Repeat: copy gbn.c to sr.c and gbn.h to sr.h
+
+commit 5c158fdd29637f55a396ce74a2bd92fc3fff0a69
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 20:36:22 2025 +0930
+
+    Upload Go Back N files
+
+commit eb6f74570e54284d60acb3683763ea5439bbda9d
+Author: Sophieee828 <161807691+Sophieee828@users.noreply.github.com>
+Date:   Sun May 4 20:06:35 2025 +0930
+
+    Initial commit
