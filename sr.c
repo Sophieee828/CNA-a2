@@ -173,11 +173,7 @@ void B_input(struct pkt packet)
     int seq;
     struct pkt ackp;
 
-    if (IsCorrupted(packet)) {
-        if (TRACE > 0)
-            printf("----B: corrupted packet is received, do nothing!\n");
-        return;
-    }
+    if (IsCorrupted(packet)) return;
 
     seq = packet.seqnum;
 
