@@ -86,7 +86,7 @@ void A_input(struct pkt packet)
         if (TRACE > 1) {
             printf("A: ACK %d is not a duplicate\n", seq);
         }
-        
+
         total_ACKs_received++;
         new_ACKs++;
 
@@ -171,10 +171,15 @@ void B_input(struct pkt packet)
 
     /* deliver in-order packets */
     while (rb_received[expectedseq]) {
+        if (TRACE > 1) {
+            printf("B_input: packet with seqnum=%d received correctly\n", expectedseq);
+        }
         tolayer5(B, rb_buffer[expectedseq].payload);
+        packets_received++;
         rb_received[expectedseq] = false;
         expectedseq++;
     }
+    
 
     /* send ACK for this packet */
     {
