@@ -20,7 +20,7 @@ typedef enum { false = 0, true = 1 } bool;
 /* Selective Repeat sender state */
 static struct pkt sr_buffer[SEQSPACE]; 
 static bool    sr_acked[SEQSPACE];
-static double  sr_timer[SEQSPACE];  
+static double  sr_expiry[SEQSPACE];  
 static int     base, nextseqnum;
 
 /* Compute checksum of a packet */
@@ -130,9 +130,9 @@ void A_init(void) {
 
 /********* Receiver (B)  variables and procedures ************/
 
-static struct pkt rb_buffer[SEQSPACE];  // Buffer to hold out-of-order packets
-static bool    rb_received[SEQSPACE];   // Flags indicating which sequence numbers have been received
-static int     expectedseq;             // Next in-order sequence number expected
+static struct pkt rb_buffer[SEQSPACE];  /* buffer for out-of-order packets */
+static bool        rb_received[SEQSPACE]; /* received flags */
+static int         expectedseq;           /* next in-order seq expected */
 
 /* the following routine will be called once (only) before any other */
 /* entity B routines are called. You can use it to do any initialization */
