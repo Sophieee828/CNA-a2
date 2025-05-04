@@ -131,7 +131,8 @@ void A_timerinterrupt(void)
         packets_resent++;
     }
 
-    starttimer(A, RTT);
+    if (base < nextseqnum)
+        starttimer(A, RTT);
 }
 
 
