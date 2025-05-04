@@ -53,6 +53,9 @@ void A_output(struct msg message)
     struct pkt p;
     /* if send window not full */
     if (nextseqnum < base + WINDOWSIZE) {
+        if (TRACE > 1)
+        printf("----A: New message arrives, send window is not full, send new messge to layer3!\n");
+
         p.seqnum = nextseqnum;
         p.acknum = -1;
         memcpy(p.payload, message.data, 20);
@@ -60,6 +63,9 @@ void A_output(struct msg message)
 
         sr_buffer[nextseqnum] = p;
         sr_acked[nextseqnum] = false;
+
+        if (TRACE > 0)
+            printf("Sending packet %d to layer 3\n", p.seqnum);
         tolayer3(A, p);
 
         /* if first outstanding packet, start timer */
@@ -68,6 +74,10 @@ void A_output(struct msg message)
         /* record its expiry */
         sr_timer[nextseqnum] = RTT;
         nextseqnum++;
+    } else {
+        if (TRACE > 0)
+            printf("----A: New message arrives, send window is full\n");
+        window_full++;
     }
 }
 
@@ -80,14 +90,14 @@ void A_input(struct pkt packet)
     int seq;
     /* only process valid ACKs */
     if (!IsCorrupted(packet)) {
-        seq = packet.acknum;
-
-        /* Print trace message like GBN */
-        if (TRACE > 1) {
-            printf("A: ACK %d is not a duplicate\n", seq);
-        }
+        if (TRACE > 0)
+            printf("----A: uncorrupted ACK %d is received\n", packet.acknum);
 
         total_ACKs_received++;
+        seq = packet.acknum;
+
+        if (TRACE > 0)
+            printf("----A: ACK %d is not a duplicate\n", seq);
         new_ACKs++;
 
         /* if ACK in window mark as received */
@@ -98,13 +108,12 @@ void A_input(struct pkt packet)
         while (base < nextseqnum && sr_acked[base])
             base++;
 
-        /* stop or restart timer */
-        if (base == nextseqnum)
-            stoptimer(A);
-        else {
-            stoptimer(A);
+        stoptimer(A);
+        if (base < nextseqnum)
             starttimer(A, RTT);
-        }
+    } else {
+        if (TRACE > 0)
+        printf("----A: corrupted ACK is received, do nothing!\n");
     }
 }
 
@@ -113,13 +122,19 @@ void A_input(struct pkt packet)
 void A_timerinterrupt(void)
 {
     int i;
-    /* retransmit any timed-out packet in window */
+    if (TRACE > 0)
+        printf("----A: time out,resend packets!\n");
+
     for (i = base; i < nextseqnum; i++) {
-        if (!sr_acked[i] && sr_timer[i] <= RTT)
+        if (!sr_acked[i] && sr_timer[i] <= RTT) {
+            if (TRACE > 0)
+                printf("---A: resending packet %d\n", sr_buffer[i].seqnum);
             tolayer3(A, sr_buffer[i]);
+            packets_resent++;
+        }
     }
-    /* restart timer */
-    starttimer(A, RTT);
+    if (base < nextseqnum)
+        starttimer(A, RTT);
 }
 
 
@@ -171,9 +186,8 @@ void B_input(struct pkt packet)
 
     /* deliver in-order packets */
     while (rb_received[expectedseq]) {
-        if (TRACE > 1) {
-            printf("B_input: packet with seqnum=%d received correctly\n", expectedseq);
-        }
+        if (TRACE > 0)
+            printf("----B: packet %d is correctly received, send ACK!\n", expectedseq);
         tolayer5(B, rb_buffer[expectedseq].payload);
         packets_received++;
         rb_received[expectedseq] = false;
