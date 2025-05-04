@@ -190,16 +190,13 @@ void A_timerinterrupt(void)
 
 /* the following routine will be called once (only) before any other */
 /* entity A routines are called. You can use it to do any initialization */
-void A_init(void)
-{
-  /* initialise A's window, buffer and sequence number */
-  A_nextseqnum = 0;  /* A starts with seq num 0, do not change this */
-  windowfirst = 0;
-  windowlast = -1;   /* windowlast is where the last packet sent is stored.
-		     new packets are placed in winlast + 1
-		     so initially this is set to -1
-		   */
-  windowcount = 0;
+void A_init(void) {
+    base       = 0;
+    nextseqnum = 0;
+    for (int i = 0; i < SEQSPACE; i++) {
+        sr_acked[i] = false;
+        sr_expiry[i] = 0.0;
+    }
 }
 
 
