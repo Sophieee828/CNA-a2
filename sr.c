@@ -60,12 +60,6 @@ bool IsCorrupted(struct pkt packet)
 
 
 /********* Sender (A) variables and functions ************/
-
-static struct pkt buffer[WINDOWSIZE];  /* array for storing packets waiting for ACK */
-static int windowfirst, windowlast;    /* array indexes of the first/last packet awaiting ACK */
-static int windowcount;                /* the number of packets currently awaiting an ACK */
-static int A_nextseqnum;               /* the next sequence number to be used by the sender */
-
 /* called from layer 5 (application layer), passed the message to be sent to other side */
 void A_output(struct msg message) {
     // If the send window is not full
