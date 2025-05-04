@@ -67,47 +67,32 @@ static int windowcount;                /* the number of packets currently awaiti
 static int A_nextseqnum;               /* the next sequence number to be used by the sender */
 
 /* called from layer 5 (application layer), passed the message to be sent to other side */
-void A_output(struct msg message)
-{
-  struct pkt sendpkt;
-  int i;
+void A_output(struct msg message) {
+    // If the send window is not full
+    if (nextseqnum < base + WINDOWSIZE) {
+        struct pkt p;
+        p.seqnum  = nextseqnum;
+        p.acknum  = -1;
+        memcpy(p.payload, message.data, 20);
+        p.checksum = ComputeChecksum(p);
 
-  /* if not blocked waiting on ACK */
-  if ( windowcount < WINDOWSIZE) {
-    if (TRACE > 1)
-      printf("----A: New message arrives, send window is not full, send new messge to layer3!\n");
+        // Store the packet in the buffer and mark it as not yet ACKed
+        sr_buffer[nextseqnum] = p;
+        sr_acked[nextseqnum]  = false;
 
-    /* create packet */
-    sendpkt.seqnum = A_nextseqnum;
-    sendpkt.acknum = NOTINUSE;
-    for ( i=0; i<20 ; i++ )
-      sendpkt.payload[i] = message.data[i];
-    sendpkt.checksum = ComputeChecksum(sendpkt);
+        // Send the packet into the network layer
+        tolayer3(A, p);
 
-    /* put packet in window buffer */
-    /* windowlast will always be 0 for alternating bit; but not for GoBackN */
-    windowlast = (windowlast + 1) % WINDOWSIZE;
-    buffer[windowlast] = sendpkt;
-    windowcount++;
+        // If this is the very first packet in the window, start the timer
+        if (base == nextseqnum) {
+            starttimer(A, RTT);
+        }
 
-    /* send out packet */
-    if (TRACE > 0)
-      printf("Sending packet %d to layer 3\n", sendpkt.seqnum);
-    tolayer3 (A, sendpkt);
-
-    /* start timer if first packet in window */
-    if (windowcount == 1)
-      starttimer(A,RTT);
-
-    /* get next sequence number, wrap back to 0 */
-    A_nextseqnum = (A_nextseqnum + 1) % SEQSPACE;
-  }
-  /* if blocked,  window is full */
-  else {
-    if (TRACE > 0)
-      printf("----A: New message arrives, send window is full\n");
-    window_full++;
-  }
+        // Record this packet’s timeout expiration (simulated)
+        sr_expiry[nextseqnum] = RTT;
+        nextseqnum++;
+    }
+    // Otherwise: send window is full—drop or defer the message (same as GBN behavior)
 }
 
 
