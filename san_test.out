@@ -2,13 +2,16 @@
 
 Enter the number of messages to simulate: Enter  packet loss probability [enter 0.0 for no loss]:Enter packet corruption probability [0.0 for no corruption]:Enter average time between messages from sender's layer5 [ > 0.0]:Enter TRACE:
 EVENT time: 6.965711,  type: 1, fromlayer5  entity: 0
+----A: New message arrives, send window is not full, send new messge to layer3!
+Sending packet 0 to layer 3
           START TIMER: starting timer at 6.965711
 
 EVENT time: 12.374607,  type: 2, fromlayer3  entity: 1
-B_input: packet with seqnum=0 received correctly
+----B: packet 0 is correctly received, send ACK!
 
 EVENT time: 17.132755,  type: 2, fromlayer3  entity: 0
-A: ACK 0 is not a duplicate
+----A: uncorrupted ACK 0 is received
+----A: ACK 0 is not a duplicate
           STOP TIMER: stopping timer at 17.132755
 
 EVENT time: 19.661861,  type: 1, fromlayer5  entity: 0
