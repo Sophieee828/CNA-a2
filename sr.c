@@ -99,58 +99,33 @@ void A_output(struct msg message) {
 /* called from layer 3, when a packet arrives for layer 4
    In this practical this will always be an ACK as B never sends data.
 */
-void A_input(struct pkt packet)
-{
-  int ackcount = 0;
-  int i;
+void A_input(struct pkt packet) {
+    // Process only if the checksum is valid
+    if (packet.checksum == ComputeChecksum(packet)) {
+        int seq = packet.acknum;
 
-  /* if received ACK is not corrupted */
-  if (!IsCorrupted(packet)) {
-    if (TRACE > 0)
-      printf("----A: uncorrupted ACK %d is received\n",packet.acknum);
-    total_ACKs_received++;
-
-    /* check if new ACK or duplicate */
-    if (windowcount != 0) {
-          int seqfirst = buffer[windowfirst].seqnum;
-          int seqlast = buffer[windowlast].seqnum;
-          /* check case when seqnum has and hasn't wrapped */
-          if (((seqfirst <= seqlast) && (packet.acknum >= seqfirst && packet.acknum <= seqlast)) ||
-              ((seqfirst > seqlast) && (packet.acknum >= seqfirst || packet.acknum <= seqlast))) {
-
-            /* packet is a new ACK */
-            if (TRACE > 0)
-              printf("----A: ACK %d is not a duplicate\n",packet.acknum);
-            new_ACKs++;
-
-            /* cumulative acknowledgement - determine how many packets are ACKed */
-            if (packet.acknum >= seqfirst)
-              ackcount = packet.acknum + 1 - seqfirst;
-            else
-              ackcount = SEQSPACE - seqfirst + packet.acknum;
-
-	    /* slide window by the number of packets ACKed */
-            windowfirst = (windowfirst + ackcount) % WINDOWSIZE;
-
-            /* delete the acked packets from window buffer */
-            for (i=0; i<ackcount; i++)
-              windowcount--;
-
-	    /* start timer again if there are still more unacked packets in window */
-            stoptimer(A);
-            if (windowcount > 0)
-              starttimer(A, RTT);
-
-          }
+        // If the ACK is for a packet in the current window, mark it as received
+        if (seq >= base && seq < base + WINDOWSIZE) {
+            sr_acked[seq] = true;
         }
-        else
-          if (TRACE > 0)
-        printf ("----A: duplicate ACK received, do nothing!\n");
-  }
-  else
-    if (TRACE > 0)
-      printf ("----A: corrupted ACK is received, do nothing!\n");
+
+        // Slide the window forward past all consecutively ACKed packets
+        while (base < nextseqnum && sr_acked[base]) {
+            base++;
+        }
+
+        // Stop or restart the timer based on whether there are outstanding packets
+        if (base == nextseqnum) {
+            // No unACKed packets remain, so stop the timer
+            stoptimer(A);
+        } else {
+            // There are still unACKed packets; restart the timer for the new base
+            stoptimer(A);
+            starttimer(A, RTT);
+        }
+    }
 }
+
 
 /* called when A's timer goes off */
 void A_timerinterrupt(void)
