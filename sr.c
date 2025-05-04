@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "emulator.h"
 #include "sr.h"
 
@@ -211,3 +212,4 @@ void B_output(struct msg message)
 void B_timerinterrupt(void)
 {
 }
+
