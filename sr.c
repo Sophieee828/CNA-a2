@@ -190,5 +190,6 @@ void B_output(struct msg message)
 /* called when B's timer goes off */
 void B_timerinterrupt(void)
 {
+    
 }
 
