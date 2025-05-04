@@ -20,7 +20,7 @@ typedef enum { false = 0, true = 1 } bool;
 /* Selective Repeat sender state */
 static struct pkt sr_buffer[SEQSPACE]; 
 static bool    sr_acked[SEQSPACE];
-static double  sr_expiry[SEQSPACE];  
+static double  sr_timer[SEQSPACE];  
 static int     base, nextseqnum;
 
 /* Compute checksum of a packet */
@@ -122,7 +122,7 @@ void A_init(void) {
     nextseqnum = 0;
     for (i = 0; i < SEQSPACE; i++) {
         sr_acked[i] = false;
-        sr_expiry[i] = 0.0;
+        sr_timer[i] = 0.0;
     }
 }
 
@@ -190,6 +190,6 @@ void B_output(struct msg message)
 /* called when B's timer goes off */
 void B_timerinterrupt(void)
 {
-    
+
 }
 
