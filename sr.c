@@ -105,12 +105,15 @@ void A_input(struct pkt packet)
             sr_acked[seq] = true;
 
         /* slide window over all ACKed packets */
+        int old_base = base;
         while (base < nextseqnum && sr_acked[base])
             base++;
 
-        stoptimer(A);
-        if (base < nextseqnum)
-            starttimer(A, RTT);
+        if (base != old_base) { 
+            stoptimer(A);
+            if (base < nextseqnum)
+                starttimer(A, RTT);
+        }
     } else {
         if (TRACE > 0)
         printf("----A: corrupted ACK is received, do nothing!\n");
