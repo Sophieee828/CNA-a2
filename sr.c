@@ -25,8 +25,14 @@
 #define RTT  16.0       /* round trip time.  MUST BE SET TO 16.0 when submitting assignment */
 #define WINDOWSIZE 6    /* the maximum number of buffered unacked packet
                           MUST BE SET TO 6 when submitting assignment */
-#define SEQSPACE 7      /* the min sequence space for GBN must be at least windowsize + 1 */
-#define NOTINUSE (-1)   /* used to fill header fields that are not being used */
+				  
+#define SEQSPACE    (2 * WINDOWSIZE)  // Sequence number space: twice the window size
+
+static struct pkt sr_buffer[SEQSPACE];  // Buffer for packets sent but not yet ACKed
+static bool    sr_acked[SEQSPACE];      // ACK flags for each sequence number
+static double  sr_expiry[SEQSPACE];     // Simulated timeout timestamp for each packet
+static int     base, nextseqnum;        // Sender window’s left edge (base) and next sequence number
+
 
 /* generic procedure to compute the checksum of a packet.  Used by both sender and receiver
    the simulator will overwrite part of your packet with 'z's.  It will not overwrite your
