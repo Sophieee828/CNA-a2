@@ -86,6 +86,9 @@ void A_input(struct pkt packet)
         if (TRACE > 1) {
             printf("A: ACK %d is not a duplicate\n", seq);
         }
+        
+        total_ACKs_received++;
+        new_ACKs++;
 
         /* if ACK in window mark as received */
         if (seq >= base && seq < base + WINDOWSIZE)
