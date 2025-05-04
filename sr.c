@@ -81,6 +81,12 @@ void A_input(struct pkt packet)
     /* only process valid ACKs */
     if (!IsCorrupted(packet)) {
         seq = packet.acknum;
+
+        /* Print trace message like GBN */
+        if (TRACE > 1) {
+            printf("A: ACK %d is not a duplicate\n", seq);
+        }
+
         /* if ACK in window mark as received */
         if (seq >= base && seq < base + WINDOWSIZE)
             sr_acked[seq] = true;
